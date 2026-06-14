@@ -5,12 +5,13 @@
 # largest BF16-KV context that fits on 4x 96GB cards.
 #
 # Configure via env vars (see .env.example) or pass them inline:
+#   huggingface-cli download olka-fi/MiniMax-M3-MXFP4 --local-dir /data/models/MiniMax-M3-MXFP4
 #   MODEL_DIR=/data/models/MiniMax-M3-MXFP4 MAX_MODEL_LEN=250000 bash scripts/serve.sh
 set -euo pipefail
 
 # --- config (override via env / .env) ---------------------------------------
 IMAGE=${M3_IMAGE:-minimax-m3-vllm:latest}
-MODEL_DIR=${MODEL_DIR:?MODEL_DIR must point at the MiniMax-M3-MXFP4 weights}
+MODEL_DIR=${MODEL_DIR:?MODEL_DIR must point at downloaded olka-fi/MiniMax-M3-MXFP4 weights}
 MODELS_ROOT=${MODELS_ROOT:-$(dirname "$MODEL_DIR")}
 SWIGLU_PATCH=${SWIGLU_PATCH:-$MODEL_DIR/vllm_patch/compressed_tensors_moe_w4a4_mxfp4.py}
 CONTAINER=${CONTAINER:-minimax-m3-vllm}

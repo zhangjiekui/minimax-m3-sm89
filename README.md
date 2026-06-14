@@ -1,6 +1,6 @@
 # MiniMax-M3 on 4× RTX PRO 6000 Blackwell (SM120)
 
-Serve https://huggingface.co/olka-fi/MiniMax-M3-MXFP4 (428B / 23B-active MoE with **MiniMax Sparse Attention**) at up to **250K context** on consumer Blackwell GPUs, using the MXFP4 quantization.
+Serve **[olka-fi/MiniMax-M3-MXFP4](https://huggingface.co/olka-fi/MiniMax-M3-MXFP4)** (MiniMax-M3, 428B / 23B-active MoE with **MiniMax Sparse Attention**) at up to **250K context** on consumer Blackwell GPUs, using the MXFP4 quantization.
 
 This repo rebuilds the patched vLLM image from source so anyone with 4× RTX PRO 6000 (96 GB) can reproduce a correct, verified serving endpoint.
 
@@ -26,7 +26,7 @@ Upstream `vllm` does not yet ship the pieces M3 needs, all of which are bundled 
 **1. Download the weights** (MXFP4, ~256 GB):
 
 ```bash
-huggingface-cli download MiniMaxAI/MiniMax-M3-MXFP4 --local-dir /data/models/MiniMax-M3-MXFP4
+huggingface-cli download olka-fi/MiniMax-M3-MXFP4 --local-dir /data/models/MiniMax-M3-MXFP4
 ```
 
 **2. Clone + configure:**
@@ -76,7 +76,7 @@ All via `.env` (see `.env.example`):
 
 | Var | Default | Notes |
 |---|---|---|
-| `MODEL_DIR` | *(required)* | Path to MXFP4 weights |
+| `MODEL_DIR` | *(required)* | Path to the downloaded `olka-fi/MiniMax-M3-MXFP4` weights |
 | `MAX_MODEL_LEN` | `250000` | Lower if you hit KV OOM |
 | `GPU_UTIL` | `0.95` | Lower to 0.92 if you hit OOM; caps context at ~190K |
 | `TP` | `4` | Tensor parallelism |
@@ -105,4 +105,4 @@ patches/vllm/           # the M3 code (mirrors vLLM in-image layout)
 
 ## License
 
-Patched vLLM files are Apache-2.0 (upstream). Glue/launch code here is MIT. The MiniMax-M3 model is under its own license — see the model card.
+Patched vLLM files are Apache-2.0 (upstream). Glue/launch code here is MIT. The MiniMax-M3 checkpoint is under its own license — see the [`olka-fi/MiniMax-M3-MXFP4` model card](https://huggingface.co/olka-fi/MiniMax-M3-MXFP4).
