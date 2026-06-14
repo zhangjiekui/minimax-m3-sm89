@@ -1,6 +1,6 @@
 # MiniMax-M3 on 4× RTX PRO 6000 Blackwell (SM120)
 
-Serve **[MiniMaxAI/MiniMax-M3](https://huggingface.co/MiniMaxAI/MiniMax-M3)** (428B / 23B-active MoE with **MiniMax Sparse Attention**) at up to **250K context** on consumer Blackwell GPUs, using the MXFP4 quantization.
+Serve https://huggingface.co/olka-fi/MiniMax-M3-MXFP4 (428B / 23B-active MoE with **MiniMax Sparse Attention**) at up to **250K context** on consumer Blackwell GPUs, using the MXFP4 quantization.
 
 This repo rebuilds the patched vLLM image from source so anyone with 4× RTX PRO 6000 (96 GB) can reproduce a correct, verified serving endpoint.
 
