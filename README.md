@@ -78,16 +78,16 @@ All via `.env` (see `.env.example`):
 |---|---|---|
 | `MODEL_DIR` | *(required)* | Path to MXFP4 weights |
 | `MAX_MODEL_LEN` | `250000` | Lower if you hit KV OOM |
-| `GPU_UTIL` | `0.92` | Raise toward 0.95 for a bit more KV headroom |
+| `GPU_UTIL` | `0.95` | Lower to 0.92 if you hit OOM; caps context at ~190K |
 | `TP` | `4` | Tensor parallelism |
 | `PORT` | `8000` | |
 | `MAX_NUM_SEQS` | `4` | Concurrent requests |
 
 ## Context ceiling
 
-The MXFP4 weights occupy ~60 GB/card, leaving ~8–11 GB/card for KV cache at `gpu_memory_utilization=0.92`. One 262K-token request needs ~11 GB KV. **250K is the safe ceiling; 262K is right at the edge** (may need `GPU_UTIL=0.95`).
+The MXFP4 weights occupy ~60 GB/card. At `gpu_memory_utilization=0.92` only ~8 GiB/card remains for KV cache (ceiling **~190K**); at `0.95` ~10.9 GiB frees up (ceiling **250K**). One 262K-token request needs ~11.06 GiB, just over the `0.95` ceiling — the last ~0.17 GiB can't be reclaimed.
 
-Full 256K+ via FP8 KV cache is **not achievable correctly on SM120** — FlashAttention has no FP8 KV, FlashInfer needs the gated `trtllm-gen` backend, and Triton produces gibberish past ~2K (the broken sparse path). Use BF16 KV (the default here).
+Full 256K+ via FP8 KV cache is **not achievable correctly on SM120**: FlashAttention has no FP8 KV, FlashInfer needs the gated `trtllm-gen` backend, and Triton produces gibberish past ~2K (the broken sparse path). Use BF16 KV (the default) at 250K / `0.95`.
 
 ## Repo layout
 

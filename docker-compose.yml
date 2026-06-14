@@ -28,7 +28,7 @@ services:
       --served-model-name minimax-m3
       --host 0.0.0.0 --port ${PORT:-8000}
       --trust-remote-code --tensor-parallel-size ${TP:-4}
-      --max-model-len ${MAX_MODEL_LEN:-250000} --gpu-memory-utilization ${GPU_UTIL:-0.92} --block-size 128
+      --max-model-len ${MAX_MODEL_LEN:-250000} --gpu-memory-utilization ${GPU_UTIL:-0.95} --block-size 128
       --max-num-batched-tokens ${MAX_NUM_BATCHED_TOKENS:-8192} --max-num-seqs ${MAX_NUM_SEQS:-4}
       --load-format fastsafetensors --linear-backend marlin
       --tool-call-parser minimax_m3 --reasoning-parser minimax_m3 --enable-auto-tool-choice
