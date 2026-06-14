@@ -1,0 +1,35 @@
+# docker compose up — equivalent to scripts/serve.sh.
+# Copy .env.example to .env and set MODEL_DIR first.
+services:
+  minimax-m3:
+    image: ${M3_IMAGE:-minimax-m3-vllm:latest}
+    build: .
+    container_name: ${CONTAINER:-minimax-m3-vllm}
+    runtime: nvidia
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: all
+              capabilities: [gpu]
+    network_mode: host
+    ipc: host
+    shm_size: 16g
+    environment:
+      VLLM_ALLOW_LONG_MAX_MODEL_LEN: "1"
+      VLLM_MXFP4_USE_MARLIN: "1"
+      VLLM_LOGGING_LEVEL: INFO
+    volumes:
+      - ${MODELS_ROOT}:${MODELS_ROOT}:ro
+      - ${MODEL_DIR}/vllm_patch/compressed_tensors_moe_w4a4_mxfp4.py:/usr/local/lib/python3.12/dist-packages/vllm/model_executor/layers/quantization/compressed_tensors/compressed_tensors_moe/compressed_tensors_moe_w4a4_mxfp4.py:ro
+    command: >
+      --model ${MODEL_DIR}
+      --served-model-name minimax-m3
+      --host 0.0.0.0 --port ${PORT:-8000}
+      --trust-remote-code --tensor-parallel-size ${TP:-4}
+      --max-model-len ${MAX_MODEL_LEN:-250000} --gpu-memory-utilization ${GPU_UTIL:-0.92} --block-size 128
+      --max-num-batched-tokens ${MAX_NUM_BATCHED_TOKENS:-8192} --max-num-seqs ${MAX_NUM_SEQS:-4}
+      --load-format fastsafetensors --linear-backend marlin
+      --tool-call-parser minimax_m3 --reasoning-parser minimax_m3 --enable-auto-tool-choice
+    restart: unless-stopped

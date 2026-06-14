@@ -1,0 +1,14 @@
+# macOS / editor
+.DS_Store
+*.swp
+.idea/
+.vscode/
+
+# Local builds
+*.tar.gz
+__pycache__/
+*.pyc
+
+# Don't commit model weights or images (256 GB / 18 GB)
+*.safetensors
+*.gguf
