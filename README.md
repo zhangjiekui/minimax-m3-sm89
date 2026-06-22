@@ -97,6 +97,7 @@ working option on the same 4× RTX PRO 6000 (SM120) host that serves the
 (true image + video), which the vLLM `minimax-m3` image does not.
 
 - **Model:** [lukealonso/MiniMax-M3-NVFP4](https://huggingface.co/lukealonso/MiniMax-M3-NVFP4) (~243 GB)
+- **Modified version:** [bullerwins/MiniMax-M3-NVFP4](https://huggingface.co/bullerwins/MiniMax-M3-NVFP4) (~260 GB)
 - **Harness:** [0xSero/minimax-m3-nvfp4-sglang](https://github.com/0xSero/minimax-m3-nvfp4-sglang)
 - **Image:** `minimax-m3-sglang:dev-cu13-minimax-m3-patched` (base `lmsysorg/sglang:dev-cu13-minimax-m3`, loader + modelopt + config patches baked in)
 
